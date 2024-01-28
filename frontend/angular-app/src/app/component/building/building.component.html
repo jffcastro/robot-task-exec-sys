@@ -1,0 +1,96 @@
+<div class="building-container">
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <div class="header-container">
+    <h1>Building Component</h1>
+  </div>
+  <button (click)="selectOption('create')" data-cy="createButton">Create Building</button>
+  <button (click)="selectOption('listOrEdit')" data-cy="listButton">List or Edit Building</button>
+  <div *ngIf="selectedOption === 'create'">
+  <form (ngSubmit)="createBuilding()">
+    <input [(ngModel)]="newBuilding.buildingId" name="buildingId" placeholder="ID" data-cy="idInput">
+    <input [(ngModel)]="newBuilding.buildingName" name="buildingName" placeholder="Name" data-cy="nameInput">
+    <input [(ngModel)]="newBuilding.buildingDescription" name="buildingDescription" placeholder="Description" data-cy="descInput">
+    <label>Number of Floors</label>
+    <select name="buildingNumberOfFloors" [(ngModel)]="newBuilding.buildingNumberOfFloors" data-cy="numInput">
+      <option *ngFor="let number of floorOptions" [value]="number">{{ number }}</option>
+    </select>
+    <label>Dim X</label>
+    <select name="dimX" [(ngModel)]="newBuilding.dimX" data-cy="x">
+      <option *ngFor="let number of dimensionOptions" [value]="number">{{ number }}</option>
+    </select>
+    <label>Dim Y</label>
+    <select name="dimY" [(ngModel)]="newBuilding.dimY" data-cy="y">
+      <option *ngFor="let number of dimensionOptions" [value]="number">{{ number }}</option>
+    </select>
+    <label>Wall Height</label>
+    <select name="wallHeight" [(ngModel)]="newBuilding.wallHeight" data-cy="wh">
+      <option *ngFor="let number of wallOptions" [value]="number">{{ number }}</option>
+    </select>
+    <label>Wall Width</label>
+    <select name="wallWidth" [(ngModel)]="newBuilding.wallWidth" data-cy="ww">
+      <option *ngFor="let number of wallOptions" [value]="number">{{ number }}</option>
+    </select>
+    <button type="submit" data-cy="createsButton">Create Building</button>
+  </form>
+  </div>
+    <div *ngIf="selectedOption === 'listOrEdit'" class="list-edit-container">
+      <div class="filter-id">
+      <input [(ngModel)]="filterText" placeholder="Filter by ID" data-cy="filterInput">
+      <button (click)="filterBuildings()" data-cy="filterButton">Filter</button>
+      </div>
+      <div class="filter-floors">
+      <select [(ngModel)]="minFloors" data-cy="minInput">
+        <option *ngFor="let number of floorOptions" [value]="number">{{ number }}</option>
+      </select>
+      <select [(ngModel)]="maxFloors" data-cy="maxInput">
+        <option *ngFor="let number of floorOptions" [value]="number">{{ number }}</option>
+      </select>
+      <button (click)="filterBuildingsByFloors()" data-cy="filter2Button">Filter by Number of Floors</button>
+      </div>
+  <table id="buildingTable">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Number of Floors</th>
+      <th>Description</th>
+      <th>Dim X</th>
+      <th>Dim Y</th>
+      <th>Wall Height</th>
+      <th>Wall Width</th>
+      <th>Floors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let building of filteredBuildings">
+      <td>{{ building.buildingId }}</td>
+      <td><input [(ngModel)]="building.buildingName" placeholder="Name"></td>
+      <td><input [(ngModel)]="building.buildingNumberOfFloors" placeholder="Number of Floors" data-cy="edit"></td>
+      <td><input [(ngModel)]="building.buildingDescription" placeholder="Description"></td>
+      <td><input [(ngModel)]="building.dimX" placeholder="Dimension X"></td>
+      <td><input [(ngModel)]="building.dimY" placeholder="Dimension Y"></td>
+      <td><input [(ngModel)]="building.wallHeight" placeholder="Wall Height"></td>
+      <td><input [(ngModel)]="building.wallWidth" placeholder="Wall Width"></td>
+      <td>
+        <div *ngFor="let floor of building.floors" class="floor-div">
+          Floor Id: {{ floor.floorId }}
+          <div *ngFor="let connections of floor.connections" class="connection-div">
+            Connection Id: {{ connections.connectionId }}, Origin: {{ connections.floorfromId }},
+            Destination: {{ connections.floortoId }}
+          </div>
+          <div *ngFor="let room of floor.rooms" class="room-div">
+            Room Id: {{ room.roomId }}
+          </div>
+          <div *ngFor="let elevators of floor.elevators" class="elevator-div">
+            Elevator Id: {{ elevators.elevatorId }}, Floors Attended: {{ elevators.floorsAttended }},
+            Current Floor: {{ elevators.currentFloor }}
+          </div>
+        </div>
+      </td>
+      <td><button (click)="editBuilding(building)" data-cy="updateButton">Edit Building</button></td>
+    </tr>
+    </tbody>
+  </table>
+    </div>
+  </div>

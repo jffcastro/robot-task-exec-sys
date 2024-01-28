@@ -1,0 +1,47 @@
+<div class="robotType-container">
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <div class="header-container">
+    <h1>Robot Type Component</h1>
+  </div>
+  <button (click)="selectOption('create')" data-cy="createButton">Create Robot Type</button>
+  <button (click)="selectOption('listOrEdit')" data-cy="listButton">List Robot Types</button>
+  <div *ngIf="selectedOption === 'create'">
+  <form (ngSubmit)="createRobotType()">
+    <input [(ngModel)]="newRobotType.typeId" name="typeId" placeholder="Type ID" data-cy="nameInput">
+    <input [(ngModel)]="newRobotType.brand" name="brand" placeholder="Brand" data-cy="brandInput">
+    <input [(ngModel)]="newRobotType.model" name="model" placeholder="Model Number" data-cy="modelInput">
+    <label>Task Category</label>
+    <select name="taskCategory" [(ngModel)]="newRobotType.taskCategory" data-cy="categoryButton">
+      <option *ngFor="let taskCategoryType of taskCategoryTypes" [value]="taskCategoryType">{{ taskCategoryType }}</option>
+    </select>
+    <button type="submit" data-cy="createsButton">Create Robot Type</button>
+  </form>
+  </div>
+  <div *ngIf="selectedOption === 'listOrEdit'" class="list-edit-container">
+    <div class="filter-id">
+  <input [(ngModel)]="filterText" placeholder="Filter by Type ID" data-cy="filterInput">
+  <button (click)="filterRobotTypes()" data-cy="filterButton">Filter</button>
+      </div>
+  <table id="robotTypeTable">
+    <thead>
+    <tr>
+      <th>Type ID</th>
+      <th>Brand</th>
+      <th>Model</th>
+      <th>Task Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let robotType of filteredRobotTypes">
+      <td>{{ robotType.typeId }}</td>
+      <td>{{ robotType.brand }}</td>
+      <td>{{ robotType.model }}</td>
+      <td>{{ robotType.taskCategory }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+

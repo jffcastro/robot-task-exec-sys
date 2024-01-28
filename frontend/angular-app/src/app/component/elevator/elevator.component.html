@@ -1,0 +1,81 @@
+<div class="elevator-container">
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <div class="header-container">
+  <h1>Elevator Component</h1>
+  </div>
+  <button (click)="selectOption('create')" data-cy="createButton">Create Elevator</button>
+  <button (click)="selectOption('listOrEdit')" data-cy="listButton">List Elevator</button>
+  <div *ngIf="selectedOption === 'create'">
+  <form (ngSubmit)="createElevator()">
+    <input [(ngModel)]="newElevator.elevatorId" name="elevatorId" placeholder="Elevator ID" data-cy="idInput">
+    <label>Building</label>
+    <select [(ngModel)]="selectedBuildingId" data-cy="buildingInput">
+      <option *ngFor="let building of buildings" [value]="building.buildingId">{{ building.buildingId }}</option>
+    </select>
+    <label>Floors Attended</label>
+    <select [(ngModel)]="selectedFloors" name="Floors Attended" multiple data-cy="attendedInput">
+      <ng-container *ngFor="let floor of floors | buildingFilter: selectedBuildingId">
+        <option [value]="floor">{{ floor }}</option>
+      </ng-container>
+    </select>
+    <p>You have selected {{ selectedFloors.length }} floor(s).</p>
+    <input [(ngModel)]="newElevator.elevatorBrand" name="elevatorBrand" placeholder="Elevator Brand" data-cy="brandInput">
+    <input [(ngModel)]="newElevator.elevatorModel" name="elevatorModel" placeholder="Elevator Model" data-cy="modelInput">
+    <input [(ngModel)]="newElevator.elevatorSerNum" name="elevatorSerNum" placeholder="Elevator Serial Number" data-cy="snInput">
+    <input [(ngModel)]="newElevator.elevatorDesc" name="elevatorDesc" placeholder="Elevator Description" data-cy="descInput">
+    <label>Current Floor</label>
+    <select [(ngModel)]="newElevator.currentFloor" name="currentFloor" data-cy="currentInput">
+      <option *ngFor="let floor of selectedFloors" [value]="floor.split('-')[1]">{{ floor.split('-')[1] }}</option>
+    </select>
+    <label>Pos X</label>
+    <select [(ngModel)]="newElevator.locationX" name="locationX" data-cy="XInput">
+      <option *ngFor="let locationX of coordinateOptions" [value]="locationX">{{ locationX }}</option>
+    </select>
+    <label>Pos Y</label>
+    <select [(ngModel)]="newElevator.locationY" name="locationY" data-cy="YInput">
+      <option *ngFor="let locationY of coordinateOptions" [value]="locationY">{{ locationY }}</option>
+    </select>
+    <button type="submit" data-cy="createsButton">Create Elevator</button>
+  </form>
+  </div>
+  <div *ngIf="selectedOption === 'listOrEdit'" class="list-edit-container">
+    <div class="filter-id">
+  <input [(ngModel)]="filterText" placeholder="Filter by ID" data-cy="filterInput">
+  <button (click)="filterElevators()" data-cy="filterButton">Filter</button>
+    </div>
+  <table id="elevatorTable">
+    <thead>
+    <tr>
+      <th>Elevator ID</th>
+      <th>Floors Attended</th>
+      <th>Elevator Brand</th>
+      <th>Elevator Model</th>
+      <th>Elevator Serial Number</th>
+      <th>Elevator Description</th>
+      <th>Current Floor</th>
+      <th>Pos X</th>
+      <th>Pos Y</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let elevator of filteredElevators">
+      <td>{{ elevator.elevatorId }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let floor of elevator.floorsAttended">{{ floor }}</li>
+        </ul>
+      </td>
+      <td>{{ elevator.elevatorBrand }}</td>
+      <td>{{ elevator.elevatorModel }}</td>
+      <td>{{ elevator.elevatorSerNum }}</td>
+      <td>{{ elevator.elevatorDesc }}</td>
+      <td>{{ elevator.currentFloor }}</td>
+      <td>{{ elevator.locationX }}</td>
+      <td>{{ elevator.locationY }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+

@@ -1,0 +1,57 @@
+<div class="robot-container">
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <div class="header-container">
+  <h1>Robot Component</h1>
+  </div>
+  <button (click)="selectOption('create')" data-cy="createButton">Create Robot</button>
+  <button (click)="selectOption('listOrEdit')" data-cy="listButton">List Robots</button>
+  <div *ngIf="selectedOption === 'create'">
+  <form (ngSubmit)="createRobot()">
+    <input [(ngModel)]="newRobot.idRobot" name="idRobot" placeholder="ID" data-cy="idInput">
+    <input [(ngModel)]="newRobot.robotName" name="robotName" placeholder="Robot Name" data-cy="nameInput">
+
+    <label> Robot Type ID</label>
+    <select [(ngModel)]="newRobot.typeId" name="typeId" data-cy="typeButton">
+      <option *ngFor="let robotType of robotTypes" [value]="robotType.typeId">{{ robotType.typeId }}</option>
+    </select>
+
+    <input [(ngModel)]="newRobot.serialNumber" name="serialNumber" placeholder="Serial Number" data-cy="snInput">
+    <input [(ngModel)]="newRobot.description" name="description" placeholder="Description" data-cy="descInput">
+    <label>Active</label>
+    <select [(ngModel)]="newRobot.active" name="active" data-cy="stateButton">
+      <option value="true">true</option>
+    </select>
+    <button type="submit" data-cy="createsButton">Create Robot</button>
+  </form>
+</div>
+    <div *ngIf="selectedOption === 'listOrEdit'" class="list-edit-container">
+      <div class="filter-id">
+  <input [(ngModel)]="filterText" placeholder="Filter by ID" data-cy="filterInput">
+  <button (click)="filterRobots()" data-cy="filterButton">Filter</button>
+      </div>
+  <table id="robotTable">
+    <thead>
+    <tr>
+      <th>Robot ID</th>
+      <th>Robot Name</th>
+      <th>Type ID</th>
+      <th>Serial Number</th>
+      <th>Description</th>
+      <th>Active</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let robot of filteredRobots">
+      <td>{{ robot.idRobot }}</td>
+      <td>{{ robot.robotName }}</td>
+      <td>{{ robot.typeId }}</td>
+      <td>{{ robot.serialNumber }}</td>
+      <td>{{ robot.description }}</td>
+      <td>{{ robot.active }}</td>
+      <td><button (click)="patchRobot(robot)" data-cy="patchButton">Patch</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div>

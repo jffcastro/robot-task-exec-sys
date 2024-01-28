@@ -1,0 +1,72 @@
+<div class="floor-container">
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <div class="header-container">
+    <h1>Floor Component</h1>
+  </div>
+  <button (click)="selectOption('create')" data-cy="createButton">Create Floor</button>
+  <button (click)="selectOption('listOrEdit')" data-cy="listButton">List or Edit Floor</button>
+  <div *ngIf="selectedOption === 'create'">
+  <form (ngSubmit)="createFloor()">
+    <label>Building ID</label>
+    <select [(ngModel)]="newFloor.buildingId" name="Building ID" data-cy="buildingInput">
+      <option *ngFor="let building of buildings" [value]="building.buildingId">{{ building.buildingId }}</option>
+    </select>
+    <label> Floor Number</label>
+    <select  name="floorNumber" [(ngModel)]="newFloor.floorNumber" data-cy="numberInput">
+      <option *ngFor="let number of floorOptions" [value]="number">{{ number }}</option>
+    </select>
+    <input [(ngModel)]="newFloor.floorDescription" name="floorDescription" placeholder="Description" data-cy="descInput">
+    <button type="submit" data-cy="createsButton">Create Floor</button>
+  </form>
+  </div>
+  <div *ngIf="selectedOption === 'listOrEdit'" class="list-edit-container">
+<div class="filter-con-buttons">
+  <button (click)="filterFloorsWithConnections()" data-cy="filterConnectionsButton">Filter Floors With Connections</button>
+</div>
+    <div class="filter-buttons">
+  <input [(ngModel)]="filterText" placeholder="Filter by ID" data-cy="filterInput">
+  <button (click)="filterFloors()" data-cy="filterButton">Filter</button>
+    </div>
+  <table id="floorTable">
+    <thead>
+    <tr>
+      <th>Building ID</th>
+      <th>Floor ID</th>
+      <th>Floor Number</th>
+      <th>Description</th>
+      <th>Connections</th>
+      <th>Rooms</th>
+      <th>Elevators</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let floor of filteredFloors">
+      <td>{{ floor.buildingId }}</td>
+      <td>{{ floor.floorId }}</td>
+      <td><input [(ngModel)]="floor.floorNumber" placeholder="Floor Number"></td>
+      <td><input [(ngModel)]="floor.floorDescription" placeholder="Description"></td>
+    <td>
+      <div *ngFor="let connections of floor.connections" class="connections-div">
+        Connection Id: {{ connections.connectionId }}, Origin: {{ connections.floorfromId }},
+        Destination: {{ connections.floortoId }}
+      </div>
+    </td>
+    <td>
+      <div *ngFor="let room of floor.rooms" class="room-div">
+        Room Id: {{ room.roomId }}, Floor Id: {{ room.floorId }}, Room Name: {{ room.roomName }},
+        Room Description: {{ room.roomDescription }}, Room Category: {{ room.roomCategory }}
+      </div>
+    </td>
+    <td>
+      <div *ngFor="let elevators of floor.elevators" class="elevators-div">
+        Elevator Id: {{ elevators.elevatorId }}, Floors Attended: {{ elevators.floorsAttended }},
+        Brand: {{ elevators.elevatorBrand }}, Current Floor: {{ elevators.currentFloor }}
+      </div>
+    </td>
+      <td><button (click)="editFloor(floor)">Edit</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div>

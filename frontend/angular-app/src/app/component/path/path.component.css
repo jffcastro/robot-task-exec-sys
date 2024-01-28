@@ -1,0 +1,108 @@
+/* Add the following styles for the two-column layout */
+.form-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.column {
+  flex-basis: calc(50% - 10px); /* Adjust the width as needed, considering margin */
+  margin-bottom: 20px; /* Adjust the margin between columns as needed */
+}
+
+/* Reset some default styles for better consistency */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Style the form container */
+.path-search {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center; /* Center text within the container */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100vh; /* Set body height to 100% of the viewport height */
+  background-image: url('/assets/path6.avif');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex; /* Use flexbox to align content vertically */
+  flex-direction: column; /* Stack children vertically */
+}
+
+/* Style form labels */
+.path-search label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Style form input fields */
+.path-search input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style the submit button */
+.path-search button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Style the result container */
+.list-path-between-two-rooms {
+  margin-top: 20px;
+}
+
+.list-path-between-two-rooms h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.list-path-between-two-rooms p {
+  font-size: 1.2em;
+  color: #333;
+  white-space: pre-wrap; /* Preserve white space, including line breaks */
+  word-break: break-all; /* Allow long words to break */
+}
+
+/* Add zero-width space after every 40 characters */
+.list-path-between-two-rooms p::after {
+  content: "\200B"; /* Unicode character for zero-width space */
+  white-space: pre-wrap;
+  display: inline;
+}
+
+/* Center the h1 element */
+h1 {
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Center the search button */
+.form-columns .center {
+  flex-basis: 100%; /* Take up the full width of the container */
+  text-align: center;
+}
+
+
+
+
