@@ -20,11 +20,23 @@ The first time, you will need to run
 npm install
 ```
 
-Then just start the server with 
+Then just start the backend server with 
 
 ```
-npm run start
+npm run start && dotnet run
 ```
+Start the frontend with this command
+
+```
+ng serve
+```
+
+Start the 3D Module with this command
+
+```
+five-server
+```
+
 It uses nodemon for livereloading :peace-fingers:
 
 # API Validation
